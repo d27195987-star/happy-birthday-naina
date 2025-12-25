@@ -3,237 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Naina!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <title>For Naina ❤️</title>
     <style>
-        :root {
-            --primary: #ff6b81;
-            --secondary: #ffecd2;
-            --bg-color: #fdfbfb;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap');
 
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-            position: relative;
+            color: white;
+            perspective: 1000px;
         }
 
-        /* Floating Background Elements */
-        .balloon {
+        /* Moving Stars Background */
+        .stars {
             position: absolute;
-            bottom: -100px;
-            width: 50px;
-            height: 60px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: float Up 15s infinite linear;
-            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
-        .balloon::after {
-            content: '';
+
+        .star {
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
             width: 2px;
-            height: 40px;
-            background: rgba(0,0,0,0.1);
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: 0;
         }
 
-        /* Main Card - Glassmorphism */
-        .card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            z-index: 10;
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+
+        /* The Gift Box */
+        .gift-container {
             position: relative;
-            transform: translateY(20px);
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gift-container:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .gift-box {
+            font-size: 100px;
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .click-hint {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            animation: pulse 1.5s infinite;
+            text-align: center;
+        }
+
+        /* The Letter Card (Hidden initially) */
+        .card {
+            display: none;
+            width: 90%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            text-align: center;
+            z-index: 20;
+            transform: translateY(50px);
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
+        }
+
+        .card.active {
+            display: block;
+            animation: popUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
             font-size: 3.5rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            margin: 0;
+            background: linear-gradient(to right, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 30px;
+        .divider {
+            height: 2px;
+            width: 50px;
+            background: white;
+            margin: 20px auto;
+            border-radius: 2px;
         }
 
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            background: #fff;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3rem;
-            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        /* The Button */
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
+        .message {
             font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 20px;
-            font-weight: 500;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
-        }
-
-        /* The Indirect Confession Section */
-        .secret-message {
-            display: none;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed #ccc;
-        }
-
-        .typing-text {
-            color: #333;
-            font-style: italic;
-            min-height: 60px;
+            line-height: 1.6;
+            min-height: 150px;
+            text-align: left;
+            color: #eee;
         }
 
         /* Animations */
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-        }
-
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 107, 129, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0); }
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
 
-        /* Responsive Text */
-        @media (max-width: 600px) {
-            h1 { font-size: 2.8rem; }
+        @keyframes popUp {
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: white;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <div class="card">
-        <div class="profile-pic">👸</div>
+    <div class="stars" id="star-container"></div>
+
+    <div class="gift-container" id="gift" onclick="openGift()">
+        <div class="gift-box">🎁</div>
+        <div class="click-hint">Tap to Open</div>
+    </div>
+
+    <div class="card" id="card">
         <h1>Happy Birthday</h1>
-        <h2 style="color: #444; margin-top: -10px;">Naina</h2>
-        
-        <p class="subtitle">
-            To the girl who adds sparkle to ordinary days.<br>
-            May your year be as beautiful as your smile.
-        </p>
-
-        <button class="btn" onclick="celebrate()">Make a Wish! ✨</button>
-
-        <div id="secret-area" style="margin-top: 30px;">
-            <p style="font-size: 0.8rem; color: #888; cursor: pointer;" onclick="revealSecret()">Tap to read a special note...</p>
+        <h2 style="font-weight: 300; margin-top: -10px;">Naina</h2>
+        <div class="divider"></div>
+        <div class="message">
+            <span id="typewriter"></span><span class="cursor"></span>
         </div>
-
-        <div class="secret-message" id="message-box">
-            <p class="typing-text" id="typewriter"></p>
-        </div>
+        <br>
+        <p style="font-size: 0.8rem; opacity: 0.7;">(Screenshots allowed 📸)</p>
     </div>
 
     <script>
-        // 1. Generate Background Balloons
-        function createBalloons() {
-            const colors = ['#ff6b81', '#ff4757', '#2ed573', '#1e90ff', '#ffa502'];
-            for(let i=0; i<15; i++) {
-                const balloon = document.createElement('div');
-                balloon.className = 'balloon';
-                balloon.style.left = Math.random() * 100 + 'vw';
-                balloon.style.animationDuration = (Math.random() * 5 + 10) + 's';
-                balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-                document.body.appendChild(balloon);
-            }
-        }
-        createBalloons();
-
-        // 2. Confetti Explosion Function
-        function celebrate() {
-            var duration = 3000;
-            var end = Date.now() + duration;
-
-            (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#ff6b81', '#ffa502']
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#ff6b81', '#ffa502']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
+        // 1. Generate Stars
+        const starContainer = document.getElementById('star-container');
+        for(let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starContainer.appendChild(star);
         }
 
-        // 3. The Indirect Confession Logic
-        function revealSecret() {
-            document.getElementById('secret-area').style.display = 'none';
-            document.getElementById('message-box').style.display = 'block';
+        // 2. Open Gift Function
+        function openGift() {
+            const gift = document.getElementById('gift');
+            const card = document.getElementById('card');
+
+            // Hides gift, shows card
+            gift.style.transition = "transform 0.5s, opacity 0.5s";
+            gift.style.transform = "scale(0) rotate(180deg)";
+            gift.style.opacity = "0";
             
-            // This is the message that hints at your feelings
-            const text = "Naina, they say people come into our lives for a reason. You didn't just come into mine; you became the best part of it. Life is just... brighter with you around. Happy Birthday to my favorite person. ❤️";
+            setTimeout(() => {
+                gift.style.display = 'none';
+                card.classList.add('active');
+                launchConfetti();
+                startTyping();
+            }, 500);
+        }
+
+        // 3. Confetti Explosion
+        function launchConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // 4. The "Indirect Love" Message Logic
+        function startTyping() {
+            // EDIT YOUR MESSAGE HERE IF YOU WANT
+            const text = "Hey Naina... \n\nAnother year, another chapter. \n\nYou know, some people just pass through our lives, and some people stay and make everything brighter. You are definitely the second kind. \n\nI just wanted to say that you're incredibly special to me. Probably more than I say out loud. \n\nHave the happiest birthday. You deserve the world. 🌎✨";
             
             const typingElement = document.getElementById('typewriter');
             let index = 0;
 
             function type() {
                 if (index < text.length) {
-                    typingElement.innerHTML += text.charAt(index);
+                    if (text.charAt(index) === '\n') {
+                        typingElement.innerHTML += '<br>';
+                    } else {
+                        typingElement.innerHTML += text.charAt(index);
+                    }
                     index++;
-                    setTimeout(type, 50); // Speed of typing
+                    setTimeout(type, 50); // Typing speed
+                } else {
+                    document.querySelector('.cursor').style.display = 'none';
                 }
             }
-            type();
+            setTimeout(type, 1000); // Wait 1 sec before starting
         }
     </script>
 </body>
