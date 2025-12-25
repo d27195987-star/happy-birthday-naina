@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Naina!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b81;
+            --secondary: #ffecd2;
+            --bg-color: #fdfbfb;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Background Elements */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 50px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float Up 15s infinite linear;
+            z-index: 1;
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 40px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        /* Main Card - Glassmorphism */
+        .card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        /* The Button */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+        }
+
+        /* The Indirect Confession Section */
+        .secret-message {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .typing-text {
+            color: #333;
+            font-style: italic;
+            min-height: 60px;
+        }
+
+        /* Animations */
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 107, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0); }
+        }
+
+        /* Responsive Text */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8rem; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="card">
+        <div class="profile-pic">👸</div>
+        <h1>Happy Birthday</h1>
+        <h2 style="color: #444; margin-top: -10px;">Naina</h2>
+        
+        <p class="subtitle">
+            To the girl who adds sparkle to ordinary days.<br>
+            May your year be as beautiful as your smile.
+        </p>
+
+        <button class="btn" onclick="celebrate()">Make a Wish! ✨</button>
+
+        <div id="secret-area" style="margin-top: 30px;">
+            <p style="font-size: 0.8rem; color: #888; cursor: pointer;" onclick="revealSecret()">Tap to read a special note...</p>
+        </div>
+
+        <div class="secret-message" id="message-box">
+            <p class="typing-text" id="typewriter"></p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Generate Background Balloons
+        function createBalloons() {
+            const colors = ['#ff6b81', '#ff4757', '#2ed573', '#1e90ff', '#ffa502'];
+            for(let i=0; i<15; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.animationDuration = (Math.random() * 5 + 10) + 's';
+                balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(balloon);
+            }
+        }
+        createBalloons();
+
+        // 2. Confetti Explosion Function
+        function celebrate() {
+            var duration = 3000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff6b81', '#ffa502']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff6b81', '#ffa502']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // 3. The Indirect Confession Logic
+        function revealSecret() {
+            document.getElementById('secret-area').style.display = 'none';
+            document.getElementById('message-box').style.display = 'block';
+            
+            // This is the message that hints at your feelings
+            const text = "Naina, they say people come into our lives for a reason. You didn't just come into mine; you became the best part of it. Life is just... brighter with you around. Happy Birthday to my favorite person. ❤️";
+            
+            const typingElement = document.getElementById('typewriter');
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    typingElement.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(type, 50); // Speed of typing
+                }
+            }
+            type();
+        }
+    </script>
+</body>
+</html>
